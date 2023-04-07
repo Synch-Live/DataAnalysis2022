@@ -100,6 +100,17 @@ for f in "${gs[@]}"; do
 done
 ```
 
+## Analysis
+
+The `analysis/flocking` folder contains order parameters used in flocking literature
+computed instantaneously on each state of as recorded by the Synch.Live system in
+each frame. Computed using the [`pyflocks` library](https://github.com/mearlboro/flocks),
+i.e. for each group
+
+```sh
+python -m pyflocks.analysis.order --path video_traj/4-txt/A_2 --out analysis/flocking --ordp ALL
+```
+
 
 ## References
 
