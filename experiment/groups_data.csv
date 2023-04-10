@@ -1,4 +1,4 @@
-Group,Start,End,Duration (frames),Manual,Emerged,Filter buffer (frames),Notes
+Group,Start,End,Duration,Manual,Emerged,Filt_buffer,Notes
 A_1,12:22:43,13:05:37,918,0,1,36,Pointwise MI
 A_2,13:05:56,13:13:43,2918,1,0,36,
 A_3,14:13:21,14:14:52,575,0,1,36,

@@ -8,7 +8,7 @@ Synch.Live experiments performed on 18-19 June 2022.
 20 groups of at most 10 participants played Synch.Live for at most 10 minutes,
 aiming to synchronise their lights according to the emergence of their movement.
 In total, 195 persons participated in the experiment.
-All participants were given the same instructions, available in `experiment/instructions.md`.
+All participants were given the same instructions, available in `experiment/instructions.md`. More information about the experiment is in `experiment/GERF_setup`.
 Details of the experimental setup for each group are available in `experiment/group_data.csv`.
 
 The system used [Synch.Live1.0](https://github.com/Synch-Live/Synch.Live1.0)
@@ -57,7 +57,7 @@ ffmpeg -to $end_seconds -i 1-orig/$group.avi -ss $start_seconds -c copy 2-trim/$
 
 To check the duration of the resulting files, run
 
-```
+```sh
 cd 2-trim
 for f in *.mp4; do
     echo $f
