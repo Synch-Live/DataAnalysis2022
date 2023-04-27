@@ -111,6 +111,18 @@ i.e. for each group
 python -m pyflocks.analysis.order --path video_traj/4-txt/A_2 --out analysis/flocking --ordp ALL
 ```
 
+The notebook `analysis/playground.ipynb` can be used to explore and combine experimental data
+from the gameplay, namely game outcome, questionnaire responses, trajectories, and order
+parameters computed as above.
+It expects the following data file (not available in this repo due to privacy):
+
+- `subj-data/quest/SL_GERF_player_questionnaire.csv`
+
+The notebook `analysis/beauty.ipynb` can be used to explore and combine experimental data from
+the aesthetics study with the segment data computed above.
+It expects the following data file (not available in this repo due to privacy):
+
+- `subj-data/aesthetics/data_exp_125666-v4_task-2z6n.csv`
 
 ## References
 
