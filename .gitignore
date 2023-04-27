@@ -1,3 +1,7 @@
+# Exclude subject data, which should be kept private
+subj-data/*
+analysis/*.csv
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
