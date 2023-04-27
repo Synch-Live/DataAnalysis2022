@@ -124,6 +124,18 @@ It expects the following data file (not available in this repo due to privacy):
 
 - `subj-data/aesthetics/data_exp_125666-v4_task-2z6n.csv`
 
+## Statistics
+
+`analysis/SL_stats.r` can be run in R to produce statistics based on combined data files
+available in the `analysis` folder following the above.
+
+These are
+
+- `analysis/GERF_group_player_data.csv`
+- `analysis/GERF_group_player_segment_data.csv`
+- `analysis/GERF_beauty_segment_data.csv`
+
+
 ## References
 
 Watts R, Kettner H, Geerts D, Gandy S, Kartner L, Mertens L, Timmermann C, Nour MM, Kaelen M, Nutt D, Carhart-Harris R, Roseman L. The Watts Connectedness Scale: a new scale for measuring a sense of connectedness to self, others, and world. Psychopharmacology (Berl). 2022 Nov;239(11):3461-3483. doi: 10.1007/s00213-022-06187-5. Epub 2022 Aug 8. PMID: 35939083; PMCID: PMC9358368.
