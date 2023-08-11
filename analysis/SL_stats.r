@@ -1,191 +1,116 @@
 #install.packages(c("lme4","lmerTest"))
-#install.packages(c("ggplot2", "ggpubr", "tidyverse", "broom", "AICcmodavg"))
+#install.packages(c("ggplot", "sjPlot"))
+#install.packages(c("psych"))
 library(lme4)
 library(lmerTest)
-#library(ggplot2)
-#library(ggpubr)
+library(psych)
+library(dplyr)
 
 setwd('~/PROJECTS/synch.live/code/DataAnalysis2022/analysis/')
 
 df <- read.csv('GERF_group_player_data.csv')
-df$Manual  <- as.factor(df$Manual)
 df$Emerged <- as.factor(df$Emerged)
-df$Outcome <- as.factor(df$Outcome)
-df <- within(df, Manual  <- relevel(Manual,  ref = '0'))
 df <- within(df, Emerged <- relevel(Emerged, ref = '0'))
-df <- within(df, Outcome <- relevel(Outcome, ref = '0'))
+df<- subset(df, Manual != 1)
 
-summary(df)
-
+################################################################################
 # Generic statistics, unrelated to game outcome
 summary(lm(WattsSelf   ~ DavisPerspective, data = df))
 summary(lm(WattsOthers ~ DavisPerspective, data = df))
 summary(lm(WattsWorld  ~ DavisPerspective, data = df))
 summary(lm(WattsTotal  ~ DavisPerspective, data = df))
 
-# Does the game outcome predict a difference in psychometrics?
-t.test(WattsSelf        ~ Emerged, data = df)
-t.test(WattsOthers      ~ Emerged, data = df)
-t.test(WattsWorld       ~ Emerged, data = df)
-t.test(WattsTotal       ~ Emerged, data = df)
-t.test(DavisPerspective ~ Emerged, data = df)
-# none are significant
 
-df_no_manual  <- subset(df, Manual != 1)
-df_no_emerged <- subset(df, Emerged != 1)
-df_no_losing  <- subset(df, Emerged == 1 | Manual == 1)
+################################################################################
+# analysis of game outcome
+win  <- subset(df, Emerged == 1)
+lose <- subset(df, Emerged != 1)
 
-# When excluding groups rewarded without winning, effect of game outcome
-t.test(WattsSelf        ~ Emerged, data = df_no_manual) # p = 0.08
-t.test(WattsOthers      ~ Emerged, data = df_no_manual)
-t.test(WattsWorld       ~ Emerged, data = df_no_manual)
-t.test(WattsTotal       ~ Emerged, data = df_no_manual) # p = 0.07
-t.test(DavisPerspective ~ Emerged, data = df_no_manual)
+t.test(lose$WattsOthers, win$WattsOthers, paired = FALSE)
 
-# When excluding groups with a positive game outcome, effect of perceived game outcome
-t.test(WattsSelf        ~ Manual, data = df_no_emerged)
-t.test(WattsOthers      ~ Manual, data = df_no_emerged)
-t.test(WattsWorld       ~ Manual, data = df_no_emerged)
-t.test(WattsTotal       ~ Manual, data = df_no_emerged)
-t.test(DavisPerspective ~ Manual, data = df_no_emerged)
+# t-tests reveal non-significant results, and may not be applicable, 
+# so we use Mann-Whitney U test (cf. https://www.sheffield.ac.uk/media/30589/download?attachment)
+wilcox.test(WattsSelf   ~ Emerged, data = df)
+wilcox.test(WattsOthers ~ Emerged, data = df) # p = 0.041
+wilcox.test(WattsWorld  ~ Emerged, data = df)
+wilcox.test(WattsTotal  ~ Emerged, data = df)
 
-# When excluding groups with a negative game outcome, effect of perceived game outcome
-t.test(WattsSelf        ~ Emerged, data = df_no_losing)
-t.test(WattsOthers      ~ Emerged, data = df_no_losing)
-t.test(WattsWorld       ~ Emerged, data = df_no_losing)
-t.test(WattsTotal       ~ Emerged, data = df_no_losing)
-t.test(DavisPerspective ~ Emerged, data = df_no_losing)
+wilcox.test(DavisPerspective  ~ Emerged, data = df)
 
-# Try as ANOVA using outcome factor to capture the three possible outcomes
-# No emergence:    0 <- Emerged=0 & Manual=0 
-# False emergence: 1 <- Emerged=0 & Manual=1
-# True emergence:  2 <- Emerged=1
 
-summary(aov(WattsSelf         ~ Outcome, data = df))
-summary(aov(WattsOthers       ~ Outcome, data = df))
-summary(aov(WattsWorld        ~ Outcome, data = df))
-summary(aov(WattsTotal        ~ Outcome, data = df))
-summary(aov(DavisPerspective  ~ Outcome, data = df))
-# all non-significant
+################################################################################
+# analysis of winning players
 
-# two-way ANOVA with duration
-summary(aov(WattsSelf         ~ Outcome + Duration, data = df))
-summary(aov(WattsOthers       ~ Outcome + Duration, data = df))
-summary(aov(WattsWorld        ~ Outcome + Duration, data = df)) # p = 0.024
-summary(aov(WattsTotal        ~ Outcome + Duration, data = df))
-summary(aov(DavisPerspective  ~ Outcome + Duration, data = df))
-# interactions
-summary(aov(WattsOthers       ~ Outcome * Duration, data = df)) # p = 0.049
-summary(aov(WattsTotal        ~ Outcome * Duration, data = df)) # p = 0.032
-summary(aov(DavisPerspective  ~ Outcome * Duration, data = df))
+# first demean all data
+win  <- subset(df, Emerged != 0)
+win$Duration         <- win$Duration         - mean(na.omit(win$Duration))
+win$DavisPerspective <- win$DavisPerspective - mean(na.omit(win$DavisPerspective))
+win$WattsSelf        <- win$WattsSelf        - mean(na.omit(win$WattsSelf  ))
+win$WattsOthers      <- win$WattsOthers      - mean(na.omit(win$WattsOthers))
+win$WattsWorld       <- win$WattsWorld       - mean(na.omit(win$WattsWorld ))
+win$WattsTotal       <- win$WattsTotal       - mean(na.omit(win$WattsTotal ))
 
-# two-way ANOVA with empathy
-summary(aov(WattsSelf   ~ Outcome + DavisPerspective, data = df)) # p = 0.062
-summary(aov(WattsOthers ~ Outcome + DavisPerspective, data = df))
-summary(aov(WattsWorld  ~ Outcome + DavisPerspective, data = df))
-summary(aov(WattsTotal  ~ Outcome + DavisPerspective, data = df)) # p = 0.047
-# interactions
-summary(aov(WattsSelf   ~ Outcome * DavisPerspective, data = df)) # p = 0.062
-summary(aov(WattsOthers ~ Outcome * DavisPerspective, data = df))
-summary(aov(WattsWorld  ~ Outcome * DavisPerspective, data = df))
-summary(aov(WattsTotal  ~ Outcome * DavisPerspective, data = df)) # p = 0.047
+# p-value from anova is the same as summary
+summary(lm(WattsSelf   ~ DavisPerspective, data = win))
+summary(lm(WattsOthers ~ DavisPerspective, data = win))
+summary(lm(WattsWorld  ~ DavisPerspective, data = win))
+summary(lm(WattsTotal  ~ DavisPerspective, data = win))
 
-# two-way ANOVA with both
-summary(aov(WattsSelf   ~ Outcome + Duration + DavisPerspective, data = df)) # p = 0.062
-summary(aov(WattsOthers ~ Outcome + Duration + DavisPerspective, data = df))
-summary(aov(WattsWorld  ~ Outcome + Duration + DavisPerspective, data = df))
-summary(aov(WattsTotal  ~ Outcome + Duration + DavisPerspective, data = df)) # p = 0.047
-# interactions
-summary(aov(WattsSelf   ~ Outcome * Duration * DavisPerspective, data = df)) # p = 0.062
-summary(aov(WattsOthers ~ Outcome * Duration * DavisPerspective, data = df))
-summary(aov(WattsWorld  ~ Outcome * Duration * DavisPerspective, data = df))
-summary(aov(WattsTotal  ~ Outcome * Duration * DavisPerspective, data = df)) # p = 0.047
+# does duration and perspective taking explain variance in connectedness to others?
+model <- lm(WattsOthers ~ Duration * DavisPerspective, data = win)
+summary(model)
+anova(model)
 
-# linear model with multiple predictors
-# surprisingly WattsOthers has no significant predictors in any of the vars
-summary(lm(WattsSelf   ~ Emerged + Manual + DavisPerspective + Duration, data = df))
-summary(lm(WattsOthers ~ Emerged + Manual + DavisPerspective + Duration, data = df))
-summary(lm(WattsWorld  ~ Emerged + Manual + DavisPerspective + Duration, data = df))
-summary(lm(WattsTotal  ~ Emerged + Manual + DavisPerspective + Duration, data = df))
 
-summary(lm(WattsSelf   ~ Outcome + DavisPerspective + Duration, data = df))
-summary(lm(WattsOthers ~ Outcome + DavisPerspective + Duration, data = df))
-summary(lm(WattsWorld  ~ Outcome + DavisPerspective + Duration, data = df))
-summary(lm(WattsTotal  ~ Outcome + DavisPerspective + Duration, data = df))
+################################################################################
+# analysis of psi
 
+df <- read.csv('GERF_group_player_psi_data.csv')
+df <- subset(df, Manual != 1)
+df$Emerged <- as.factor(df$Emerged)
 
 # For studies of movement in conjuncture with questionnaires, must remove error games
 df <- na.omit(df)
 
-summary(lm(WattsSelf   ~ Psi_max, data = df))
-summary(lm(WattsOthers ~ Psi_max, data = df))
-summary(lm(WattsWorld  ~ Psi_max, data = df))
-summary(lm(WattsTotal  ~ Psi_max, data = df))
+anova(lm(WattsTotal ~ Psi_max, data = df)) # p = 0.0329
+anova(lm(WattsTotal ~ Psi_min, data = df))
+anova(lm(WattsTotal ~ Psi_avg, data = df))
+anova(lm(WattsTotal ~ Psi_std, data = df))
 
-summary(lm(WattsSelf   ~ Psi_min, data = df))
-summary(lm(WattsOthers ~ Psi_min, data = df))
-summary(lm(WattsWorld  ~ Psi_min, data = df))
-summary(lm(WattsTotal  ~ Psi_min, data = df))
+anova(lm(DavisPerspective ~ Psi_max, data = df))
+anova(lm(DavisPerspective ~ Psi_min, data = df))
+anova(lm(DavisPerspective ~ Psi_avg, data = df))
+anova(lm(DavisPerspective ~ Psi_std, data = df))
 
-summary(lm(WattsSelf   ~ Psi_avg, data = df))
-summary(lm(WattsOthers ~ Psi_avg, data = df))
-summary(lm(WattsWorld  ~ Psi_avg, data = df))
-summary(lm(WattsTotal  ~ Psi_avg, data = df))
-
-summary(lm(WattsSelf   ~ Psi_var, data = df))
-summary(lm(WattsOthers ~ Psi_var, data = df))
-summary(lm(WattsWorld  ~ Psi_var, data = df))
-summary(lm(WattsTotal  ~ Psi_var, data = df))
-# none significant
-
-# LMEs for each segment
-# probably statistically unsound
-df <- read.csv('GERF_group_player_segment_data.csv')
-df$Manual  <- as.factor(df$Manual)
-df$Emerged <- as.factor(df$Emerged)
-df$Outcome <- as.factor(df$Outcome)
-
-summary(lmer(mean_psi     ~ 1 + Outcome + (1|Segment), data = df)) 
-summary(lmer(mean_psi     ~ 1 + Emerged + (1|Segment), data = df)) 
-
-summary(lmer(vicsek_order ~ 1 + Outcome + (1|Segment), data = df)) 
-summary(lmer(vicsek_order ~ 1 + Emerged + (1|Segment), data = df)) 
-
-
-# LMEs for beauty!
+# ANOVA for each segment
 df <- read.csv('GERF_beauty_segment_data.csv')
+df <- subset(df, Manual != 1)
+df$Emerged <- as.factor(df$Emerged)
+df <- within(df, Emerged <- relevel(Emerged, ref = '0'))
 
-summary(df)
+summary(lm(mean_psi              ~ Emerged, data = df))  # p < 0.0001
+summary(lm(std_psi               ~ Emerged, data = df))  # negative p < 0.0001
+summary(lm(vicsek_order          ~ Emerged, data = df))  # negative p < 0.0001
+summary(lm(var_angle             ~ Emerged, data = df))
+summary(lm(mean_dist_cmass       ~ Emerged, data = df))  # negative p = 0.001
+summary(lm(mean_dist_nearest     ~ Emerged, data = df))  # negative p = 0.001
+summary(lm(err_mean_dist_nearest ~ Emerged, data = df))  # negative p = 0.002
 
-# all significant
-summary(lmer(mean_psi          ~ 1 + mean_beauty + (1|Segment), data = df)) 
-summary(lmer(vicsek_order      ~ 1 + mean_beauty + (1|Segment), data = df)) 
-summary(lmer(err_vicsek_order  ~ 1 + mean_beauty + (1|Segment), data = df)) 
 
-summary(lmer(var_angle         ~ 1 + mean_beauty + (1|Segment), data = df)) 
+summary(lm(mean_beauty ~ mean_psi             , data = df))  # p < 0.0001
+summary(lm(mean_beauty ~ std_psi              , data = df))
+summary(lm(mean_beauty ~ vicsek_order         , data = df))  # negative p < 0.0001
+summary(lm(mean_beauty ~ std_vicsek_order     , data = df))  # negative p < 0.0001
+summary(lm(mean_beauty ~ var_angle            , data = df))  # p = 0.04
+summary(lm(mean_beauty ~ std_var_angle        , data = df))
+summary(lm(mean_beauty ~ mean_dist_cmass      , data = df))
+summary(lm(mean_beauty ~ std_mean_dist_cmass  , data = df))  # negative p = 0.0002
+summary(lm(mean_beauty ~ mean_dist_nearest    , data = df))  # negative p = 0.001
+summary(lm(mean_beauty ~ std_mean_dist_nearest, data = df))  # negative p = 0.0004
 
-summary(lmer(mean_psi          ~ 1 + std_beauty + (1|Segment), data = df)) 
-summary(lmer(vicsek_order      ~ 1 + std_beauty + (1|Segment), data = df)) 
-
-# non-significant
-summary(lmer(std_psi           ~ 1 + mean_beauty + (1|Segment), data = df))  # very significant intercept?
-summary(lmer(mean_dist_cmass   ~ 1 + mean_beauty + (1|Segment), data = df)) 
-summary(lmer(mean_dist_nearest ~ 1 + mean_beauty + (1|Segment), data = df)) 
-
-summary(lmer(err_mean_dist_cmass   ~ 1 + mean_beauty + (1|Segment), data = df))
-summary(lmer(err_mean_dist_nearest ~ 1 + mean_beauty + (1|Segment), data = df)) 
-summary(lmer(err_var_angle         ~ 1 + mean_beauty + (1|Segment), data = df)) # very significant intercept?
-
-# beauty as target
-summary(lmer(mean_beauty ~ 1 + mean_psi + std_psi + 
-               vicsek_order + err_vicsek_order +
-               var_angle + err_var_angle +
-               mean_dist_cmass + err_mean_dist_cmass +
-               mean_dist_nearest + err_mean_dist_nearest +
-               (1|Segment), data = df)) 
-
-summary(lmer(mean_beauty ~ 1 + mean_psi +
-               err_vicsek_order +
-               mean_dist_cmass + err_mean_dist_cmass +
-               mean_dist_nearest + err_mean_dist_nearest +
-               (1|Segment), data = df)) 
+anova(lmer(mean_beauty ~ 1 + mean_psi + std_psi + 
+               vicsek_order + std_vicsek_order +
+               var_angle + std_var_angle +
+               mean_dist_cmass + std_mean_dist_cmass +
+               mean_dist_nearest + std_mean_dist_nearest +
+               (1|Group), data = df)) 
