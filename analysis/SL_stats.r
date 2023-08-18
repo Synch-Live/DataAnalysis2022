@@ -1,10 +1,13 @@
 #install.packages(c("lme4","lmerTest"))
-#install.packages(c("ggplot", "sjPlot"))
 #install.packages(c("psych"))
+#install.packages(c('ggiraph', 'ggiraphExtra', 'plyr'))
+
 library(lme4)
 library(lmerTest)
 library(psych)
-library(dplyr)
+require(ggiraph)
+require(ggiraphExtra)
+require(plyr)
 
 setwd('~/PROJECTS/synch.live/code/DataAnalysis2022/analysis/')
 
@@ -26,6 +29,21 @@ summary(lm(WattsTotal  ~ DavisPerspective, data = df))
 win  <- subset(df, Emerged == 1)
 lose <- subset(df, Emerged != 1)
 
+# From the output, the p-value > 0.05 implying that the distribution of the data are not significantly different from normal distribution. 
+shapiro.test(win$DavisPerspective)
+shapiro.test(win$WattsSelf)
+shapiro.test(win$WattsOthers) # not normal, p = 0.05149
+shapiro.test(win$WattsWorld)  # not normal, p = 0.00368
+shapiro.test(win$WattsTotal)
+
+shapiro.test(lose$DavisPerspective)
+shapiro.test(lose$WattsSelf)
+shapiro.test(lose$WattsOthers)
+shapiro.test(lose$WattsWorld)
+shapiro.test(lose$WattsTotal) 
+
+# since win$WattsOthers is significantly non-Gaussian as per Shapiro-Wilk
+# t-test assumptions not met, albeit normally SW is not enough to discredit a t-test
 t.test(lose$WattsOthers, win$WattsOthers, paired = FALSE)
 
 # t-tests reveal non-significant results, and may not be applicable, 
@@ -57,10 +75,29 @@ summary(lm(WattsWorld  ~ DavisPerspective, data = win))
 summary(lm(WattsTotal  ~ DavisPerspective, data = win))
 
 # does duration and perspective taking explain variance in connectedness to others?
-model <- lm(WattsOthers ~ Duration * DavisPerspective, data = win)
-summary(model)
-anova(model)
+lm_model <- lm(WattsOthers ~ Duration * DavisPerspective, data = win)
+summary(lm_model)
+anova(lm_model)
+plot(lm_model)
 
+# for this funky plot, use the data that was not demeaned
+win0  <- subset(df, Emerged != 0)
+lm_model <- lm(WattsOthers ~ DavisPerspective * Duration, data = win0)
+ggPredict(lm_model, interactive=TRUE)
+
+# analyse the residuals
+lm_residuals <- lm_model$residuals
+hist(lm_residuals)
+
+# does duration and perspective taking explain variance in connectedness to others?
+lmer_model <- lmer(WattsOthers ~ Duration * DavisPerspective + (1|Group), data = win)
+summary(lmer_model)
+anova(lmer_model)
+plot(lmer_model)
+
+# analyse the residuals
+lmer_residuals <- resid(lmer_model)
+hist(lmer_residuals)
 
 ################################################################################
 # analysis of psi
@@ -95,7 +132,6 @@ summary(lm(var_angle             ~ Emerged, data = df))
 summary(lm(mean_dist_cmass       ~ Emerged, data = df))  # negative p = 0.001
 summary(lm(mean_dist_nearest     ~ Emerged, data = df))  # negative p = 0.001
 summary(lm(err_mean_dist_nearest ~ Emerged, data = df))  # negative p = 0.002
-
 
 summary(lm(mean_beauty ~ mean_psi             , data = df))  # p < 0.0001
 summary(lm(mean_beauty ~ std_psi              , data = df))
