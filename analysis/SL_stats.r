@@ -4,10 +4,11 @@
 
 library(lme4)
 library(lmerTest)
+
 library(psych)
 require(ggiraph)
 require(ggiraphExtra)
-require(plyr)
+
 
 setwd('~/PROJECTS/synch.live/code/DataAnalysis2022/analysis/')
 
@@ -60,7 +61,7 @@ wilcox.test(DavisPerspective  ~ Emerged, data = df)
 # analysis of winning players
 
 # first demean all data
-win  <- subset(df, Emerged != 0)
+win <- subset(df, Emerged == 1)
 win$Duration         <- win$Duration         - mean(na.omit(win$Duration))
 win$DavisPerspective <- win$DavisPerspective - mean(na.omit(win$DavisPerspective))
 win$WattsSelf        <- win$WattsSelf        - mean(na.omit(win$WattsSelf  ))
@@ -74,30 +75,55 @@ summary(lm(WattsOthers ~ DavisPerspective, data = win))
 summary(lm(WattsWorld  ~ DavisPerspective, data = win))
 summary(lm(WattsTotal  ~ DavisPerspective, data = win))
 
-# does duration and perspective taking explain variance in connectedness to others?
+# LM: does duration and perspective taking explain variance in connectedness to others?
 lm_model <- lm(WattsOthers ~ Duration * DavisPerspective, data = win)
 summary(lm_model)
 anova(lm_model)
-plot(lm_model)
 
-# for this funky plot, use the data that was not demeaned
+# 3-way interaction plot, use the data that was not demeaned
 win0  <- subset(df, Emerged != 0)
-lm_model <- lm(WattsOthers ~ DavisPerspective * Duration, data = win0)
-ggPredict(lm_model, interactive=TRUE)
+lm0 <- lm(WattsOthers ~ DavisPerspective * Duration, data = win0)
+ggPredict(lm0, interactive=TRUE)
 
-# analyse the residuals
-lm_residuals <- lm_model$residuals
-hist(lm_residuals)
-
-# does duration and perspective taking explain variance in connectedness to others?
+# LMER: does duration and perspective taking explain variance in connectedness to others?
 lmer_model <- lmer(WattsOthers ~ Duration * DavisPerspective + (1|Group), data = win)
 summary(lmer_model)
 anova(lmer_model)
+
+anova(lmer(WattsSelf   ~ Duration * DavisPerspective + (1|Group), data = win))
+anova(lmer(WattsOthers ~ Duration * DavisPerspective + (1|Group), data = win))
+anova(lmer(WattsWorld  ~ Duration * DavisPerspective + (1|Group), data = win))
+
+
+################################################################################
+# residual analysis for winning players
+
+# preview the residuals
+plot(lm_model)
 plot(lmer_model)
 
-# analyse the residuals
+lm_residuals <- lm_model$residuals
+hist(lm_residuals)
 lmer_residuals <- resid(lmer_model)
 hist(lmer_residuals)
+
+# ANOVA on the residuals using group ID
+winr <- na.omit(win)
+winr$Res <- lm_residuals
+
+# check equal variance accross groups - ANOVA assumption
+boxplot(Res ~ Group,
+        data = winr,
+        xlab = "Group",
+        ylab = "Residuals from LM")
+leveneTest(Res ~ Group, data = winr)
+
+model <- aov(Res ~ Group, data = winr)
+summary(model)
+
+#perform Tukey post-hoc test
+TukeyHSD(model)
+
 
 ################################################################################
 # analysis of psi
