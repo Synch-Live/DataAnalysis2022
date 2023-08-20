@@ -1,0 +1,7 @@
+jupyterlab
+matplotlib
+numpy
+pandas
+#seaborn==0.12.2  # for errorbar being SD
+seaborn==0.10     # for ptitprince to work
+ptitprince
