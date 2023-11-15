@@ -1,4 +1,4 @@
-#install.packages(c("lme4","lmerTest"))
+#install.packages(c("lme4","lmerTest", "car"))
 #install.packages(c("psych"))
 #install.packages(c('ggiraph', 'ggiraphExtra', 'plyr'))
 
@@ -6,23 +6,23 @@ library(lme4)
 library(lmerTest)
 
 library(psych)
-require(ggiraph)
-require(ggiraphExtra)
-
+#require(ggiraph)
+#require(ggiraphExtra)
+#library(car)
 
 setwd('~/PROJECTS/synch.live/code/DataAnalysis2022/analysis/')
 
 df <- read.csv('GERF_group_player_data.csv')
 df$Emerged <- as.factor(df$Emerged)
 df <- within(df, Emerged <- relevel(Emerged, ref = '0'))
-df<- subset(df, Manual != 1)
+df <- subset(df, Manual != 1)
 
 ################################################################################
 # Generic statistics, unrelated to game outcome
-summary(lm(WattsSelf   ~ DavisPerspective, data = df))
+summary(lm(WattsSelf   ~ DavisPerspective, data = df)) # p = 0.02141
 summary(lm(WattsOthers ~ DavisPerspective, data = df))
 summary(lm(WattsWorld  ~ DavisPerspective, data = df))
-summary(lm(WattsTotal  ~ DavisPerspective, data = df))
+summary(lm(WattsTotal  ~ DavisPerspective, data = df)) # p = 0.019
 
 
 ################################################################################
@@ -33,7 +33,7 @@ lose <- subset(df, Emerged != 1)
 # From the output, the p-value > 0.05 implying that the distribution of the data are not significantly different from normal distribution. 
 shapiro.test(win$DavisPerspective)
 shapiro.test(win$WattsSelf)
-shapiro.test(win$WattsOthers) # not normal, p = 0.05149
+shapiro.test(win$WattsOthers) # not normal, p = 0.005149
 shapiro.test(win$WattsWorld)  # not normal, p = 0.00368
 shapiro.test(win$WattsTotal)
 
@@ -72,8 +72,13 @@ win$WattsTotal       <- win$WattsTotal       - mean(na.omit(win$WattsTotal ))
 # p-value from anova is the same as summary
 summary(lm(WattsSelf   ~ DavisPerspective, data = win))
 summary(lm(WattsOthers ~ DavisPerspective, data = win))
-summary(lm(WattsWorld  ~ DavisPerspective, data = win))
-summary(lm(WattsTotal  ~ DavisPerspective, data = win))
+summary(lm(WattsWorld  ~ DavisPerspective, data = win)) # p = 0.0387
+summary(lm(WattsTotal  ~ DavisPerspective, data = win)) # p = 0.012
+
+summary(lm(WattsSelf   ~ Duration, data = win))
+summary(lm(WattsOthers ~ Duration, data = win))
+summary(lm(WattsWorld  ~ Duration, data = win))
+summary(lm(WattsTotal  ~ Duration, data = win))
 
 # LM: does duration and perspective taking explain variance in connectedness to others?
 lm_model <- lm(WattsOthers ~ Duration * DavisPerspective, data = win)
@@ -91,8 +96,8 @@ summary(lmer_model)
 anova(lmer_model)
 
 anova(lmer(WattsSelf   ~ Duration * DavisPerspective + (1|Group), data = win))
-anova(lmer(WattsOthers ~ Duration * DavisPerspective + (1|Group), data = win))
 anova(lmer(WattsWorld  ~ Duration * DavisPerspective + (1|Group), data = win))
+anova(lmer(WattsTotal  ~ Duration * DavisPerspective + (1|Group), data = win))
 
 
 ################################################################################
@@ -102,6 +107,7 @@ anova(lmer(WattsWorld  ~ Duration * DavisPerspective + (1|Group), data = win))
 plot(lm_model)
 plot(lmer_model)
 
+# compare the two model's residuals
 lm_residuals <- lm_model$residuals
 hist(lm_residuals)
 lmer_residuals <- resid(lmer_model)
@@ -111,18 +117,59 @@ hist(lmer_residuals)
 winr <- na.omit(win)
 winr$Res <- lm_residuals
 
-# check equal variance accross groups - ANOVA assumption
+# check equal variance across groups - ANOVA assumption
+bartlett.test(Res ~ Group, data = winr) # p = 0.09 - equal var
+#LeveneTest(Res ~ Group, data = winr)
+
+model <- aov(Res ~ Group, data = winr)
+summary(model) # p = 0.0482
+
+
+################################################################################
+# post-hoc analysis
+TukeyHSD(model)
+
+# compute group stats
+tapply(winr$Res, winr$Group, summary)
+tapply(winr$Res, winr$Group, sd)
+
+# visualise group variance
 boxplot(Res ~ Group,
         data = winr,
         xlab = "Group",
         ylab = "Residuals from LM")
-leveneTest(Res ~ Group, data = winr)
 
-model <- aov(Res ~ Group, data = winr)
-summary(model)
+# group A_1 is an outlier, maybe because of different config of system
+df1 <- subset(df, Group != 'A_1')
+win1 <- subset(win, Group != 'A_1')
 
-#perform Tukey post-hoc test
-TukeyHSD(model)
+wilcox.test(WattsOthers ~ Emerged, data = df1) # p = 0.04694
+
+summary(lm(WattsTotal  ~ DavisPerspective, data = win1)) # p = 0.029
+
+lm_model <- lm(WattsOthers ~ Duration * DavisPerspective, data = win1)
+summary(lm_model)
+anova(lm_model)
+
+lmer_model <- lmer(WattsOthers ~ Duration * DavisPerspective + (1|Group), data = win1)
+summary(lmer_model)
+anova(lmer_model)
+
+# compare the two model's residuals
+lm_residuals <- lm_model$residuals
+hist(lm_residuals)
+lmer_residuals <- resid(lmer_model)
+hist(lmer_residuals)
+
+# ANOVA on the residuals using group ID
+winr1 <- na.omit(win1)
+winr1$Res <- lm_residuals
+
+# check equal variance across groups - not enough evidence of different var
+bartlett.test(Res ~ Group, data = winr1) # p = 0.1193
+
+model <- aov(Res ~ Group, data = winr1)
+summary(model) # p = 0.0288
 
 
 ################################################################################
