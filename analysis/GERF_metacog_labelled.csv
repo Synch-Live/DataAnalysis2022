@@ -1,8 +1,8 @@
 ,Group,Label,Answer,Emerged,Manual
 0,A_2,No,No not really I'm not that sure of what happened and why it did,0,1
-1,A_2,,,0,1
+1,A_2,No,,0,1
 2,A_2,Yes,Walking in the same direction,0,1
-3,A_2,Yes,I think that when more people move in the same direction at the same time something happened I don't think a circle would have worked,0,1
+3,A_2,No,I think that when more people move in the same direction at the same time something happened I don't think a circle would have worked,0,1
 4,A_2,Yes,Yes,0,1
 5,A_2,No,No,0,1
 6,A_2,Yes,"Somewhat, but when we synced I wanted to continue to experiment to see if we could I sync",0,1
@@ -14,7 +14,7 @@
 12,A_3,Yes,The lights seem to be aligning so carried on,1,0
 13,A_3,Yes,I believe that the above strategies worked and  also that moving in a circle had a positive impact,1,0
 14,A_3,Yes,Yes,1,0
-15,A_3,,,1,0
+15,A_3,No,,1,0
 16,A_3,No,No,1,0
 17,A_4,No,A little bit – the blinking synced with nearby people – but I wasn't sure it was working,1,0
 18,A_4,Yes,"Changing direction, following others",1,0
@@ -23,10 +23,10 @@
 21,A_4,Yes,I thought as we looked at each other the hats lit up,1,0
 22,A_4,No,No,1,0
 23,A_4,No,Not really,1,0
-24,A_5,,Numbers 2 and 3,0,1
+24,A_5,No,Numbers 2 and 3,0,1
 25,A_5,No,Not really,0,1
 26,A_5,Yes,When we all moved in unison,0,1
-27,A_5,Yes,All of them within a measure,0,1
+27,A_5,No,All of them within a measure,0,1
 28,A_5,Yes,Group movement,0,1
 29,A_5,No,"Not much, maybe",0,1
 30,A_5,Yes,Possibly constant spacing and speed,0,1
@@ -60,7 +60,7 @@
 58,A_9,Yes,I see when people close to each other lights flash at the same time,0,0
 59,A_9,No,No but harmony and circle worked,0,0
 60,A_9,No,No,0,0
-61,A_9,Yes,Yes - none,0,0
+61,A_9,No,Yes - none,0,0
 62,A_9,No,Circle seemed effective at first but then theorised that flashing is random and that I may as well do my own thing/try as many patterns as possible,0,0
 63,A_9,Yes,Circle seemed to work the best Being closer to people Following and matching pace,0,0
 64,A_9,No,Tried but not sure,0,0
@@ -77,7 +77,7 @@
 75,B_2,Yes,Following one small duo led to everyone joining without communicating,0,0
 76,B_2,Yes,Possibly,0,0
 77,B_2,Yes,"Yes, trying to time our footsteps",0,0
-78,B_2,Yes,Animals,0,0
+78,B_2,No,Animals,0,0
 79,B_3,Yes,Walking in a constricting circle,1,0
 80,B_3,Yes,Synchronising movements,1,0
 81,B_3,Yes,"Yes, just had to get them to do the same",1,0
@@ -90,12 +90,12 @@
 88,B_4,Yes,"Yes, walking in a circle about 2 m apart",0,0
 89,B_4,Yes,Walking in circle while facing each other,0,0
 90,B_4,Yes,Walking in circle of particular speed and size,0,0
-91,B_5,,As nos 4 and 2,0,0
+91,B_5,No,As nos 4 and 2,0,0
 92,B_5,Yes,Appeared to be stepping at the same time,0,0
 93,B_5,No,No,0,0
 94,B_5,No,No,0,0
 95,B_5,Yes,Yes,0,0
-96,B_5,,Yes and no,0,0
+96,B_5,No,Yes and no,0,0
 97,B_5,No,No,0,0
 98,B_7,Yes,When everyone was working together in unison we were going to the right direction,1,0
 99,B_7,No,No,1,0
@@ -105,7 +105,7 @@
 103,B_7,Yes,Yes – going closer and doing the same as each other – going in a circle,1,0
 104,B_7,No,Not really,1,0
 105,B_8,Yes,Sometimes the lights were in sync until someone broke the chain,0,0
-106,B_8,Yes,partly – circling seemed to,0,0
+106,B_8,No,partly – circling seemed to,0,0
 107,B_8,No,No,0,0
 108,B_8,Yes,"The standing still and looking at pairs, that worked well, but there were people who seemed to just walk randomly and break the chain",0,0
 109,B_8,Yes,Number of steps Same motion and direction,0,0

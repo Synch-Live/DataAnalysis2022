@@ -1,13 +1,15 @@
 
 setwd('~/PROJECTS/synch.live/code/DataAnalysis2022/analysis/')
 
-dfmc <- read.csv('GERF_metacog_poster_neutral-to-no.csv')
-dfmc <-  dfmc[!(is.na(dfmc$Label) | dfmc$Label==""), ]
-dfmc <- subset(dfmc, Manual == 0)
 
 ################################################################################
 # Metacognition
 
+dfmc <- read.csv('GERF_metacog_labelled.csv')
+dfmc <-  dfmc[!(is.na(dfmc$Label) | dfmc$Label==""), ]
+dfmc <- subset(dfmc, Manual == 0)
+
+# chi-squared test
 plt_df <- table (dfmc$Label, dfmc$Emerged)
 plt_df
 barplot(plt_df, legend.text = TRUE,
@@ -20,6 +22,17 @@ barplot(plt_df, legend.text = TRUE,
 chisq.test(plt_df, correct = FALSE)
 
 
+# per-group test
+dfmcg <- read.csv('GERF_metacog_groups.csv')
+dfmcg <- subset(dfmcg, Manual == 0)
+wilcox.test(Aware ~ Emerged, data = dfmcg)
+wilcox.test(Aware_ratio ~ Emerged, data = dfmcg)
+
+
+
+
+################################################################################
+# 3 labels - yes, no, neutral - not used
 dfmc <- read.csv('GERF_metacog_3labels.csv')
 dfmc <-  dfmc[!(is.na(dfmc$Label) | dfmc$Label==""), ]
 dfmc <- subset(dfmc, Manual != 1)
