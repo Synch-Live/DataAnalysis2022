@@ -4,8 +4,8 @@
 
 library(lme4)
 library(lmerTest)
-
-library(psych)
+library(lmtest)
+library(dplyr)
 #require(ggiraph)
 #require(ggiraphExtra)
 #library(car)
@@ -19,11 +19,14 @@ df <- subset(df, Manual != 1)
 
 ################################################################################
 # Generic statistics, unrelated to game outcome
+summary(df)
+
 summary(lm(WattsSelf   ~ DavisPerspective, data = df)) # p = 0.02141
 summary(lm(WattsOthers ~ DavisPerspective, data = df))
 summary(lm(WattsWorld  ~ DavisPerspective, data = df))
 summary(lm(WattsTotal  ~ DavisPerspective, data = df)) # p = 0.019
 
+df %>% group_by(Group) %>% summarise(count = n())
 
 ################################################################################
 # analysis of game outcome
@@ -43,24 +46,40 @@ shapiro.test(lose$WattsOthers)
 shapiro.test(lose$WattsWorld)
 shapiro.test(lose$WattsTotal) 
 
+# perspective-taking seems Gaussian so can use t-test
+t.test(lose$DavisPerspective, win$DavisPerspective, paired = FALSE)
+
 # since win$WattsOthers is significantly non-Gaussian as per Shapiro-Wilk
 # t-test assumptions not met, albeit normally SW is not enough to discredit a t-test
 t.test(lose$WattsOthers, win$WattsOthers, paired = FALSE)
 
-# t-tests reveal non-significant results, and may not be applicable, 
+# t-tests reveal non-significant results, and may not be applicable due to non-normality of some groups
 # so we use Mann-Whitney U test (cf. https://www.sheffield.ac.uk/media/30589/download?attachment)
-wilcox.test(WattsSelf   ~ Emerged, data = df)
-wilcox.test(WattsOthers ~ Emerged, data = df) # p = 0.041
-wilcox.test(WattsWorld  ~ Emerged, data = df)
-wilcox.test(WattsTotal  ~ Emerged, data = df)
+group_by(df, Emerged) %>%
+  summarise(
+    count = n(),
+    mean = mean(WattsOthers, na.rm = TRUE),
+    median = median(WattsOthers, na.rm = TRUE),
+    sd = sd(WattsOthers, na.rm = TRUE),
+    IQR = IQR(WattsOthers, na.rm = TRUE)
+  )
 
-wilcox.test(DavisPerspective  ~ Emerged, data = df)
+wilcox.test(WattsSelf   ~ Emerged, data = df, exact = FALSE)
+wilcox.test(WattsOthers ~ Emerged, data = df, exact = FALSE) # p = 0.041
+wilcox.test(WattsWorld  ~ Emerged, data = df, exact = FALSE)
+wilcox.test(WattsTotal  ~ Emerged, data = df, exact = FALSE)
 
+# tailed test is more significant, but not warranted by study design
+wilcox.test(WattsSelf   ~ Emerged, data = df, alternative = "less", exact = FALSE) # p = 0.033
+wilcox.test(WattsOthers ~ Emerged, data = df, alternative = "less", exact = FALSE) # p = 0.0205
+wilcox.test(WattsWorld  ~ Emerged, data = df, alternative = "less", exact = FALSE) # p = 0.29
+wilcox.test(WattsTotal  ~ Emerged, data = df, alternative = "less", exact = FALSE) # p = 0.051
 
 ################################################################################
 # analysis of winning players
 
 # first demean all data
+# seems lm is the same with or without demeaning
 win <- subset(df, Emerged == 1)
 win$Duration         <- win$Duration         - mean(na.omit(win$Duration))
 win$DavisPerspective <- win$DavisPerspective - mean(na.omit(win$DavisPerspective))
@@ -100,6 +119,18 @@ anova(lmer(WattsWorld  ~ Duration * DavisPerspective + (1|Group), data = win))
 anova(lmer(WattsTotal  ~ Duration * DavisPerspective + (1|Group), data = win))
 
 
+lmer_model  <- lmer(WattsOthers ~ Duration * DavisPerspective + (1|Group), data = win)
+lmer_model2 <- lmer(WattsOthers ~ Duration + (1|Group), data = win)
+AIC(lmer_model, lmer_model2)
+BIC(lmer_model, lmer_model2)
+# perspective taking is making a difference
+lrtest(lmer_model, lmer_model2)
+
+lmer_model3  <- lmer(WattsOthers ~ DavisPerspective + (1|Group), data = win)
+summary(lmer_model3)
+anova(lmer_model3)
+
+
 ################################################################################
 # residual analysis for winning players
 
@@ -115,26 +146,30 @@ hist(lmer_residuals)
 
 # ANOVA on the residuals using group ID
 winr <- na.omit(win)
-winr$Res <- lm_residuals
+winr$LMRes  <- lm_residuals
+winr$LMERes <- lmer_residuals
 
 # check equal variance across groups - ANOVA assumption
-bartlett.test(Res ~ Group, data = winr) # p = 0.09 - equal var
+bartlett.test(LMRes  ~ Group, data = winr) # p = 0.09 - equal var
+bartlett.test(LMERes ~ Group, data = winr) # p = 0.22 - equal var
 #LeveneTest(Res ~ Group, data = winr)
 
-model <- aov(Res ~ Group, data = winr)
+model <- aov(LMRes  ~ Group, data = winr)
 summary(model) # p = 0.0482
 
+model <- aov(LMERes ~ Group, data = winr)
+summary(model) # p = 0.97
 
 ################################################################################
 # post-hoc analysis
 TukeyHSD(model)
 
 # compute group stats
-tapply(winr$Res, winr$Group, summary)
-tapply(winr$Res, winr$Group, sd)
+tapply(winr$LMRes, winr$Group, summary)
+tapply(winr$LMRes, winr$Group, sd)
 
 # visualise group variance
-boxplot(Res ~ Group,
+boxplot(LMRes ~ Group,
         data = winr,
         xlab = "Group",
         ylab = "Residuals from LM")
