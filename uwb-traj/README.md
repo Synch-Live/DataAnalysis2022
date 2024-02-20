@@ -4,7 +4,7 @@ This folder contains logs collected by the UWB system (`1-logs`), scripts to ext
 
 ### Format
 
-The `1-logs` folder contains  the original log files from the `observer` with the date and UTC timestamp of when the experiment was started in the filename.
+The `1-logs` folder should contain the original log files from the `observer` with the date and UTC timestamp of when the experiment was started in the filename.
 
 At initialisation, the  UWB system reports the size of the play area in the logs.
 
@@ -32,7 +32,7 @@ To show log files that have any position data:
 grep -rl XYZ 1-logs | sort
 ```
 
-To show how many Psi data points are in a file (e.g. for how many frames the experiment has run)
+To show how many trajectories with _any_ $\Psi$ data points are in a file (e.g. for how many frames the recording has run, `total_duration`)
 ```sh
 grep 'Unfiltered Psi' 1-logs/*.log | tac | sort -u -t: -k1,1
 ```
@@ -40,9 +40,23 @@ grep 'Unfiltered Psi' 1-logs/*.log | tac | sort -u -t: -k1,1
 > [!NOTE]
 > All experiments without any trajectory data or with less than 300 data points should be excluded.
 
+To show log files with _any_ $\Psi$ greater than 3 in a given game:
+
+```sh
+grep -Erl 'Filtered Psi [0-9]+: ([3-9][.][0-9]+)' 1-logs/
+```
+
+To show the last occurence of a $\Psi$ greater than 3, i.e. `psi_duration`:
+```sh
+grep -E 'Filtered Psi [0-9]+: ([3-9][.][0-9]+)' 1-logs/*.log | tac | sort -u -t: -k1,1
+```
+
+
 ### `game_data.csv`
 
 Information extracted from the logs, such as the limits of the play area, the number of players, the number of frames where all players were present etc are in the `game_data.csv` file.
+
+The information to fill `game_data` was gathered manually by browsing the file or running the commands above. A full `game_data` is needed to run the pipeline below.
 
 ### Pipeline
 
@@ -61,13 +75,13 @@ foreach f in 2-xyz-logs/*; do python proc_traj.py $f; done
 > [!IMPORTANT]
 > The Z-axis is currently being removed by this script, and the positions are being normalised to unit square.
 
-The shape of the numpy array resulting from the processing should match `(duration, players, 2)`.
+The shape of the numpy array resulting from the processing should match `(duration, players, 2)`. Note that this is not the same duration as `total_duration` or `psi_duration`, as some data points may have been skipped due to failure in tracking, or removed from the end due to not being associated with a useful value of $\Psi$.
 The arrays have been plotted in the same folder `trajectories.py plot --filename traj.npy` from [Synch.Live](https://github.com/mearlboro/Synch.Live/blob/main/python/camera/tools/trajectories.py).
 
-> [!IMPORTANT]
-> The game duration and number of players for that game in `game_data.csv` is given by the trajectory array obtained above.
-
 3. Optionally, files in `3-traj` can be converted to text format to be plotted by the `pyflocks` library [animate utility](https://github.com/mearlboro/flocks/blob/main/util/animate.py).
+
+> [!NOTE]
+> Some experiments were kept running after participants were no longer following the task. Therefore duration has been updated to include this rather than the total number of frames with a recorded $\Psi$.
 
 
 

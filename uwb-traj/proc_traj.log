@@ -1,32 +1,19 @@
-2-xy-logs/observer_observer_20240206-224523.log: Missing 2 player trajectories on line 1
-2-xy-logs/observer_observer_20240206-224523.log: Missing 2 player trajectories on line 2
-2-xy-logs/observer_observer_20240206-224523.log: Missing 2 player trajectories on line 3
-2-xy-logs/observer_observer_20240206-224523.log: Missing 1 player trajectories on line 4
-2-xy-logs/observer_observer_20240206-224523.log: Missing 1 player trajectories on line 5
-2-xy-logs/observer_observer_20240206-224523.log: Missing 1 player trajectories on line 6
-2-xy-logs/observer_observer_20240206-224523.log: Missing 1 player trajectories on line 7
-2-xy-logs/observer_observer_20240206-224523.log: Missing 1 player trajectories on line 8
-2-xy-logs/observer_observer_20240206-224523.log: Processed logs into trajectory array of shape (6297, 4, 3)
-2-xy-logs/observer_observer_20240206-235923.log: Processed logs into trajectory array of shape (2910, 4, 3)
-2-xy-logs/observer_observer_20240207-000801.log: Missing 1 player trajectories on line 1
-2-xy-logs/observer_observer_20240207-000801.log: Missing 1 player trajectories on line 2
-2-xy-logs/observer_observer_20240207-000801.log: Processed logs into trajectory array of shape (5551, 4, 3)
 2-xy-logs/observer_observer_20240207-185759.log: Missing 2 player trajectories on line 1
 2-xy-logs/observer_observer_20240207-185759.log: Missing 1 player trajectories on line 2
 2-xy-logs/observer_observer_20240207-185759.log: Missing 1 player trajectories on line 3
 2-xy-logs/observer_observer_20240207-185759.log: Missing 1 player trajectories on line 4
-2-xy-logs/observer_observer_20240207-185759.log: Processed logs into trajectory array of shape (971, 5, 3)
-2-xy-logs/observer_observer_20240207-190357.log: Processed logs into trajectory array of shape (2205, 5, 3)
+2-xy-logs/observer_observer_20240207-185759.log: Processed logs into trajectory array of shape (967, 5, 2)
+2-xy-logs/observer_observer_20240207-190357.log: Processed logs into trajectory array of shape (2006, 5, 2)
 2-xy-logs/observer_observer_20240207-191454.log: Missing 3 player trajectories on line 1
 2-xy-logs/observer_observer_20240207-191454.log: Missing 3 player trajectories on line 2
 2-xy-logs/observer_observer_20240207-191454.log: Missing 2 player trajectories on line 3
 2-xy-logs/observer_observer_20240207-191454.log: Missing 1 player trajectories on line 4
 2-xy-logs/observer_observer_20240207-191454.log: Missing 1 player trajectories on line 5
-2-xy-logs/observer_observer_20240207-191454.log: Processed logs into trajectory array of shape (1125, 5, 3)
+2-xy-logs/observer_observer_20240207-191454.log: Processed logs into trajectory array of shape (1125, 5, 2)
 2-xy-logs/observer_observer_20240207-192351.log: Missing 3 player trajectories on line 1
 2-xy-logs/observer_observer_20240207-192351.log: Missing 1 player trajectories on line 2
 2-xy-logs/observer_observer_20240207-192351.log: Missing 1 player trajectories on line 3
-2-xy-logs/observer_observer_20240207-192351.log: Processed logs into trajectory array of shape (878, 5, 3)
+2-xy-logs/observer_observer_20240207-192351.log: Processed logs into trajectory array of shape (878, 5, 2)
 2-xy-logs/observer_observer_20240207-193253.log: Missing 3 player trajectories on line 1
 2-xy-logs/observer_observer_20240207-193253.log: Missing 2 player trajectories on line 2
 2-xy-logs/observer_observer_20240207-193253.log: Missing 2 player trajectories on line 3
@@ -52,7 +39,7 @@
 2-xy-logs/observer_observer_20240207-193253.log: Missing 1 player trajectories on line 23
 2-xy-logs/observer_observer_20240207-193253.log: Missing 1 player trajectories on line 24
 2-xy-logs/observer_observer_20240207-193253.log: Missing 1 player trajectories on line 25
-2-xy-logs/observer_observer_20240207-193253.log: Processed logs into trajectory array of shape (782, 5, 3)
+2-xy-logs/observer_observer_20240207-193253.log: Processed logs into trajectory array of shape (782, 5, 2)
 2-xy-logs/observer_observer_20240207-194044.log: Missing 3 player trajectories on line 1
 2-xy-logs/observer_observer_20240207-194044.log: Missing 3 player trajectories on line 2
 2-xy-logs/observer_observer_20240207-194044.log: Missing 3 player trajectories on line 3
@@ -63,7 +50,7 @@
 2-xy-logs/observer_observer_20240207-194044.log: Missing 1 player trajectories on line 8
 2-xy-logs/observer_observer_20240207-194044.log: Missing 1 player trajectories on line 9
 2-xy-logs/observer_observer_20240207-194044.log: Missing 1 player trajectories on line 10
-2-xy-logs/observer_observer_20240207-194044.log: Processed logs into trajectory array of shape (1604, 5, 3)
+2-xy-logs/observer_observer_20240207-194044.log: Processed logs into trajectory array of shape (1560, 5, 2)
 2-xy-logs/observer_observer_20240207-194624.log: Missing 2 player trajectories on line 1
 2-xy-logs/observer_observer_20240207-194624.log: Missing 2 player trajectories on line 2
 2-xy-logs/observer_observer_20240207-194624.log: Missing 2 player trajectories on line 3
@@ -72,7 +59,7 @@
 2-xy-logs/observer_observer_20240207-194624.log: Missing 1 player trajectories on line 6
 2-xy-logs/observer_observer_20240207-194624.log: Missing 1 player trajectories on line 7
 2-xy-logs/observer_observer_20240207-194624.log: Missing 1 player trajectories on line 8
-2-xy-logs/observer_observer_20240207-194624.log: Processed logs into trajectory array of shape (2044, 4, 3)
+2-xy-logs/observer_observer_20240207-194624.log: Processed logs into trajectory array of shape (1941, 4, 2)
 2-xy-logs/observer_observer_20240207-200012.log: Missing 7 player trajectories on line 1
 2-xy-logs/observer_observer_20240207-200012.log: Missing 7 player trajectories on line 2
 2-xy-logs/observer_observer_20240207-200012.log: Missing 7 player trajectories on line 3
@@ -97,8 +84,8 @@
 2-xy-logs/observer_observer_20240207-200012.log: Missing 2 player trajectories on line 22
 2-xy-logs/observer_observer_20240207-200012.log: Missing 1 player trajectories on line 23
 2-xy-logs/observer_observer_20240207-200012.log: Missing 1 player trajectories on line 24
-2-xy-logs/observer_observer_20240207-200012.log: Processed logs into trajectory array of shape (1381, 10, 3)
-2-xy-logs/observer_observer_20240207-200752.log: Processed logs into trajectory array of shape (4049, 10, 3)
+2-xy-logs/observer_observer_20240207-200012.log: Processed logs into trajectory array of shape (1381, 10, 2)
+2-xy-logs/observer_observer_20240207-200752.log: Processed logs into trajectory array of shape (3271, 10, 2)
 2-xy-logs/observer_observer_20240207-201941.log: Missing 4 player trajectories on line 1
 2-xy-logs/observer_observer_20240207-201941.log: Missing 4 player trajectories on line 2
 2-xy-logs/observer_observer_20240207-201941.log: Missing 4 player trajectories on line 3
@@ -110,7 +97,7 @@
 2-xy-logs/observer_observer_20240207-201941.log: Missing 2 player trajectories on line 9
 2-xy-logs/observer_observer_20240207-201941.log: Missing 2 player trajectories on line 10
 2-xy-logs/observer_observer_20240207-201941.log: Missing 2 player trajectories on line 11
-2-xy-logs/observer_observer_20240207-201941.log: Processed logs into trajectory array of shape (2887, 6, 3)
+2-xy-logs/observer_observer_20240207-201941.log: Processed logs into trajectory array of shape (864, 6, 2)
 2-xy-logs/observer_observer_20240207-202811.log: Missing 4 player trajectories on line 1
 2-xy-logs/observer_observer_20240207-202811.log: Missing 4 player trajectories on line 2
 2-xy-logs/observer_observer_20240207-202811.log: Missing 3 player trajectories on line 3
@@ -134,7 +121,7 @@
 2-xy-logs/observer_observer_20240207-202811.log: Missing 1 player trajectories on line 21
 2-xy-logs/observer_observer_20240207-202811.log: Missing 1 player trajectories on line 22
 2-xy-logs/observer_observer_20240207-202811.log: Missing 1 player trajectories on line 23
-2-xy-logs/observer_observer_20240207-202811.log: Processed logs into trajectory array of shape (2356, 6, 3)
+2-xy-logs/observer_observer_20240207-202811.log: Processed logs into trajectory array of shape (923, 6, 2)
 2-xy-logs/observer_observer_20240207-203724.log: Missing 4 player trajectories on line 1
 2-xy-logs/observer_observer_20240207-203724.log: Missing 4 player trajectories on line 2
 2-xy-logs/observer_observer_20240207-203724.log: Missing 4 player trajectories on line 3
@@ -156,7 +143,7 @@
 2-xy-logs/observer_observer_20240207-203724.log: Missing 1 player trajectories on line 19
 2-xy-logs/observer_observer_20240207-203724.log: Missing 1 player trajectories on line 20
 2-xy-logs/observer_observer_20240207-203724.log: Missing 1 player trajectories on line 21
-2-xy-logs/observer_observer_20240207-203724.log: Processed logs into trajectory array of shape (3554, 6, 3)
+2-xy-logs/observer_observer_20240207-203724.log: Processed logs into trajectory array of shape (1830, 6, 2)
 2-xyz-logs/observer_observer_20240217-164828.log: Missing 10 player trajectories on line 1
 2-xyz-logs/observer_observer_20240217-164828.log: Missing 10 player trajectories on line 2
 2-xyz-logs/observer_observer_20240217-164828.log: Missing 10 player trajectories on line 3
@@ -215,7 +202,7 @@
 2-xyz-logs/observer_observer_20240217-172145.log: Missing 3 player trajectories on line 5
 2-xyz-logs/observer_observer_20240217-172145.log: Missing 3 player trajectories on line 6
 2-xyz-logs/observer_observer_20240217-172145.log: Missing 2 player trajectories on line 7
-2-xyz-logs/observer_observer_20240217-172145.log: Processed logs into trajectory array of shape (3171, 10, 2)
+2-xyz-logs/observer_observer_20240217-172145.log: Processed logs into trajectory array of shape (2340, 10, 2)
 2-xyz-logs/observer_observer_20240217-172854.log: Missing 8 player trajectories on line 1
 2-xyz-logs/observer_observer_20240217-172854.log: Missing 8 player trajectories on line 2
 2-xyz-logs/observer_observer_20240217-172854.log: Missing 7 player trajectories on line 3
@@ -227,8 +214,8 @@
 2-xyz-logs/observer_observer_20240217-172854.log: Missing 2 player trajectories on line 9
 2-xyz-logs/observer_observer_20240217-172854.log: Missing 2 player trajectories on line 10
 2-xyz-logs/observer_observer_20240217-172854.log: Missing 1 player trajectories on line 11
-2-xyz-logs/observer_observer_20240217-172854.log: Processed logs into trajectory array of shape (2160, 10, 2)
-2-xyz-logs/observer_observer_20240217-173503.log: Processed logs into trajectory array of shape (6606, 10, 2)
+2-xyz-logs/observer_observer_20240217-172854.log: Processed logs into trajectory array of shape (1739, 10, 2)
+2-xyz-logs/observer_observer_20240217-173503.log: Processed logs into trajectory array of shape (429, 10, 2)
 2-xyz-logs/observer_observer_20240217-174712.log: Missing 8 player trajectories on line 1
 2-xyz-logs/observer_observer_20240217-174712.log: Missing 8 player trajectories on line 2
 2-xyz-logs/observer_observer_20240217-174712.log: Missing 8 player trajectories on line 3
@@ -247,7 +234,7 @@
 2-xyz-logs/observer_observer_20240217-180229.log: Missing 5 player trajectories on line 3
 2-xyz-logs/observer_observer_20240217-180229.log: Missing 2 player trajectories on line 4
 2-xyz-logs/observer_observer_20240217-180229.log: Missing 2 player trajectories on line 5
-2-xyz-logs/observer_observer_20240217-180229.log: Processed logs into trajectory array of shape (4581, 10, 2)
+2-xyz-logs/observer_observer_20240217-180229.log: Processed logs into trajectory array of shape (4274, 10, 2)
 2-xyz-logs/observer_observer_20240217-181243.log: Missing 8 player trajectories on line 1
 2-xyz-logs/observer_observer_20240217-181243.log: Missing 5 player trajectories on line 2
 2-xyz-logs/observer_observer_20240217-181243.log: Missing 5 player trajectories on line 3
@@ -255,7 +242,7 @@
 2-xyz-logs/observer_observer_20240217-181243.log: Missing 4 player trajectories on line 5
 2-xyz-logs/observer_observer_20240217-181243.log: Missing 2 player trajectories on line 6
 2-xyz-logs/observer_observer_20240217-181243.log: Missing 1 player trajectories on line 7
-2-xyz-logs/observer_observer_20240217-181243.log: Processed logs into trajectory array of shape (17682, 10, 2)
+2-xyz-logs/observer_observer_20240217-181243.log: Processed logs into trajectory array of shape (8782, 10, 2)
 2-xyz-logs/observer_observer_20240217-194928.log: Missing 7 player trajectories on line 1
 2-xyz-logs/observer_observer_20240217-194928.log: Missing 4 player trajectories on line 2
 2-xyz-logs/observer_observer_20240217-194928.log: Missing 3 player trajectories on line 3
@@ -341,13 +328,13 @@
 2-xyz-logs/observer_observer_20240217-194928.log: Missing 1 player trajectories on line 83
 2-xyz-logs/observer_observer_20240217-194928.log: Missing 1 player trajectories on line 84
 2-xyz-logs/observer_observer_20240217-194928.log: Missing 1 player trajectories on line 85
-2-xyz-logs/observer_observer_20240217-194928.log: Processed logs into trajectory array of shape (6447, 10, 2)
+2-xyz-logs/observer_observer_20240217-194928.log: Processed logs into trajectory array of shape (2669, 10, 2)
 2-xyz-logs/observer_observer_20240217-201008.log: Missing 7 player trajectories on line 1
 2-xyz-logs/observer_observer_20240217-201008.log: Missing 7 player trajectories on line 2
 2-xyz-logs/observer_observer_20240217-201008.log: Missing 7 player trajectories on line 3
 2-xyz-logs/observer_observer_20240217-201008.log: Missing 5 player trajectories on line 4
 2-xyz-logs/observer_observer_20240217-201008.log: Missing 1 player trajectories on line 5
-2-xyz-logs/observer_observer_20240217-201008.log: Processed logs into trajectory array of shape (2242, 10, 2)
+2-xyz-logs/observer_observer_20240217-201008.log: Processed logs into trajectory array of shape (1662, 10, 2)
 2-xyz-logs/observer_observer_20240217-201538.log: Missing 8 player trajectories on line 1
 2-xyz-logs/observer_observer_20240217-201538.log: Missing 8 player trajectories on line 2
 2-xyz-logs/observer_observer_20240217-201538.log: Missing 7 player trajectories on line 3
@@ -363,7 +350,7 @@
 2-xyz-logs/observer_observer_20240217-201538.log: Missing 1 player trajectories on line 13
 2-xyz-logs/observer_observer_20240217-201538.log: Missing 1 player trajectories on line 14
 2-xyz-logs/observer_observer_20240217-201538.log: Missing 1 player trajectories on line 15
-2-xyz-logs/observer_observer_20240217-201538.log: Processed logs into trajectory array of shape (4958, 10, 2)
+2-xyz-logs/observer_observer_20240217-201538.log: Processed logs into trajectory array of shape (4738, 10, 2)
 2-xyz-logs/observer_observer_20240217-202502.log: Missing 7 player trajectories on line 1
 2-xyz-logs/observer_observer_20240217-202502.log: Missing 7 player trajectories on line 2
 2-xyz-logs/observer_observer_20240217-202502.log: Missing 6 player trajectories on line 3
@@ -394,14 +381,14 @@
 2-xyz-logs/observer_observer_20240217-202502.log: Missing 1 player trajectories on line 28
 2-xyz-logs/observer_observer_20240217-202502.log: Missing 1 player trajectories on line 29
 2-xyz-logs/observer_observer_20240217-202502.log: Missing 1 player trajectories on line 30
-2-xyz-logs/observer_observer_20240217-202502.log: Processed logs into trajectory array of shape (1443, 10, 2)
+2-xyz-logs/observer_observer_20240217-202502.log: Processed logs into trajectory array of shape (1027, 10, 2)
 2-xyz-logs/observer_observer_20240217-203031.log: Missing 6 player trajectories on line 1
 2-xyz-logs/observer_observer_20240217-203031.log: Missing 4 player trajectories on line 2
 2-xyz-logs/observer_observer_20240217-203031.log: Missing 4 player trajectories on line 3
 2-xyz-logs/observer_observer_20240217-203031.log: Missing 2 player trajectories on line 4
 2-xyz-logs/observer_observer_20240217-203031.log: Missing 2 player trajectories on line 5
 2-xyz-logs/observer_observer_20240217-203031.log: Missing 1 player trajectories on line 6
-2-xyz-logs/observer_observer_20240217-203031.log: Processed logs into trajectory array of shape (5749, 10, 2)
+2-xyz-logs/observer_observer_20240217-203031.log: Processed logs into trajectory array of shape (1766, 10, 2)
 2-xyz-logs/observer_observer_20240217-204359.log: Missing 8 player trajectories on line 1
 2-xyz-logs/observer_observer_20240217-204359.log: Missing 8 player trajectories on line 2
 2-xyz-logs/observer_observer_20240217-204359.log: Missing 7 player trajectories on line 3
@@ -410,5 +397,5 @@
 2-xyz-logs/observer_observer_20240217-204359.log: Missing 4 player trajectories on line 6
 2-xyz-logs/observer_observer_20240217-204359.log: Missing 4 player trajectories on line 7
 2-xyz-logs/observer_observer_20240217-204359.log: Missing 1 player trajectories on line 8
-2-xyz-logs/observer_observer_20240217-204359.log: Processed logs into trajectory array of shape (3449, 10, 2)
+2-xyz-logs/observer_observer_20240217-204359.log: Processed logs into trajectory array of shape (3446, 10, 2)
 
