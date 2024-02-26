@@ -56,7 +56,7 @@ grep -E 'Filtered Psi [0-9]+: ([3-9][.][0-9]+)' 1-logs/*.log | tac | sort -u -t:
 
 Information extracted from the logs, such as the limits of the play area, the number of players, the number of frames where all players were present etc are in the `game_data.csv` file.
 
-The information to fill `game_data` was gathered manually by browsing the file or running the commands above. A full `game_data` is needed to run the pipeline below.
+The information to fill `game_data` was gathered manually by browsing the file or running the commands above. A full `game_data` is needed to run the Python script in step 2 below.
 
 ### Pipeline
 
