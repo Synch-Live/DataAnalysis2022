@@ -78,15 +78,16 @@ wilcox.test(WattsTotal  ~ Emerged, data = df, alternative = "less", exact = FALS
 ################################################################################
 # analysis of winning players
 
-# first demean all data
-# seems lm is the same with or without demeaning
+# first standardise all data
+# NB: lm is the same with or without demeaning or standardising
 win <- subset(df, Emerged == 1)
-win$Duration         <- win$Duration         - mean(na.omit(win$Duration))
-win$DavisPerspective <- win$DavisPerspective - mean(na.omit(win$DavisPerspective))
-win$WattsSelf        <- win$WattsSelf        - mean(na.omit(win$WattsSelf  ))
-win$WattsOthers      <- win$WattsOthers      - mean(na.omit(win$WattsOthers))
-win$WattsWorld       <- win$WattsWorld       - mean(na.omit(win$WattsWorld ))
-win$WattsTotal       <- win$WattsTotal       - mean(na.omit(win$WattsTotal ))
+# do we demean for LMER?
+win$Duration         <- (win$Duration         - mean(na.omit(win$Duration)))         / sd(na.omit(win$Duration))
+win$DavisPerspective <- (win$DavisPerspective - mean(na.omit(win$DavisPerspective))) / sd(na.omit(win$DavisPerspective))
+win$WattsSelf        <- (win$WattsSelf        - mean(na.omit(win$WattsSelf  )))      / sd(na.omit(win$WattsSelf  ))
+win$WattsOthers      <- (win$WattsOthers      - mean(na.omit(win$WattsOthers)))      / sd(na.omit(win$WattsOthers))
+win$WattsWorld       <- (win$WattsWorld       - mean(na.omit(win$WattsWorld )))      / sd(na.omit(win$WattsWorld ))
+win$WattsTotal       <- (win$WattsTotal       - mean(na.omit(win$WattsTotal )))      / sd(na.omit(win$WattsTotal ))
 
 # p-value from anova is the same as summary
 summary(lm(WattsSelf   ~ DavisPerspective, data = win))
@@ -99,7 +100,11 @@ summary(lm(WattsOthers ~ Duration, data = win))
 summary(lm(WattsWorld  ~ Duration, data = win))
 summary(lm(WattsTotal  ~ Duration, data = win))
 
+anova(lm(WattsOthers ~ Duration, data = win))
+anova(lm(WattsOthers ~ DavisPerspective, data = win))
+
 # LM: does duration and perspective taking explain variance in connectedness to others?
+# same results with or without standardizing
 lm_model <- lm(WattsOthers ~ Duration * DavisPerspective, data = win)
 summary(lm_model)
 anova(lm_model)
