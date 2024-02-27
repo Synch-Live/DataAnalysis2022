@@ -66,7 +66,7 @@ The information to fill `game_data` was gathered manually by browsing the file o
 foreach f in 1-logs/*; do grep XYZ $f >  2-xyz-logs/${f##*/}; done
 ```
 
-2. Then each file in `2-xyz-logs` is processed with the Python script `proc_traj.py` into numpy arrays in `3-traj`.
+2. Then each file in `2-xyz-logs` is processed with the Python script `proc_traj.py` into numpy arrays in `3-traj-2d`.
 
 ```sh
 foreach f in 2-xyz-logs/*; do python proc_traj.py $f; done
@@ -76,12 +76,36 @@ foreach f in 2-xyz-logs/*; do python proc_traj.py $f; done
 > The Z-axis is currently being removed by this script, and the positions are being normalised to unit square.
 
 The shape of the numpy array resulting from the processing should match `(duration, players, 2)`. Note that this is not the same duration as `total_duration` or `psi_duration`, as some data points may have been skipped due to failure in tracking, or removed from the end due to not being associated with a useful value of $\Psi$.
-The arrays have been plotted in the same folder `trajectories.py plot --filename traj.npy` from [Synch.Live](https://github.com/mearlboro/Synch.Live/blob/main/python/camera/tools/trajectories.py).
+The arrays have been plotted in the same folder using `trajectories.py` from [Synch.Live](https://github.com/mearlboro/Synch.Live/blob/main/python/camera/tools/trajectories.py).
 
-3. Optionally, files in `3-traj` can be converted to text format to be plotted by the `pyflocks` library [animate utility](https://github.com/mearlboro/flocks/blob/main/util/animate.py).
+```sh
+foreach f in 3-logs/*; do python trajectories.py plot --filename $f; done
+```
 
 > [!NOTE]
-> Some experiments were kept running after participants were no longer following the task. Therefore duration has been updated to include this rather than the total number of frames with a recorded $\Psi$.
+> Some experiments were kept running after participants were no longer following the task. Therefore duration of a game refers to `psi_duration` rather than `total_duration`.
+
+
+3. To calculate $\Psi$ for the extracted trajectories, the numpy files can simply be passed to `emergence.py` from [Synch.Live](https://github.com/mearlboro/Synch.Live/blob/main/python/camera/core/emergence.py). This ensures the same running calculator is used. The output is saved as numpy arrays in `psi`.
+
+```sh
+foreach f in 3-traj-2d/*.npy; do python emergence.py --filename $f; done
+```
+
+Note the following parameters were used:
+
+```python
+SAMPLE_THRESHOLD = 180
+PSI_START = -5
+psi_buffer_size = 60
+observation_window_size = 720
+use_local = False
+```
+
+4. The notebook `playground.ipynb` loads game data, creates dataframes, and visualises the value of $\Psi$ over time.
+
+5. Optionally, files in `3-traj` can be converted to text format to be plotted by the `pyflocks` library [animate utility](https://github.com/mearlboro/flocks/blob/main/util/animate.py).
+
 
 
 
@@ -93,6 +117,7 @@ We can see robust localisation with a drop in the number of players per line onl
 
 * unless otherwise stated below, logs with no or less than 300 positions have been removed
 * 20240206-224523, 20240206-235923, 20240207-000801 are mostly empty, all XY positions are at 0, so they  are not included in this analysis
-* 20240207-192351 has 5 players, and the first player is always static at position 0,0,0 
+* 20240207-192351 has 5 players, and the first player is always static at position 0,0,0
+
 
 
